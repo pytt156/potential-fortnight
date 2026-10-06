@@ -36,3 +36,4 @@ jobs:
         with:
           name: test-result
           path: test-result.txt
+          if-no-files-found: error
