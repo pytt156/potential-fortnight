@@ -3,11 +3,13 @@ on:
   push:
     branches: [main]
   pull_request:
+
+env:
+  HYPOTHESIS_PROFILE: ci
+
 jobs:
   check:
     runs-on: ubuntu-latest
-    env:
-      HYPOTHESIS_PROFILE: ci
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -24,3 +26,12 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --frozen
       - run: uv run pytest
+
+  artifact:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact@v4
+        with:
+          name: project-file
+          path: README.md
